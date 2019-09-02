@@ -1,0 +1,15 @@
+{
+  "name": "clstats",
+  "version": "1.0.0",
+  "description": "Diagram CL volume counts.",
+  "main": "main.js",
+  "scripts": {
+    "electron": "electron ."
+  },
+  "author": "Paul Glezen <pglezen@isab.lacounty.gov>",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^5.11.0",
+    "electron": "^6.0.4"
+  }
+}
