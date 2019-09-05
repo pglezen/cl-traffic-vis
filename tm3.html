@@ -1,7 +1,8 @@
 <head>
 </head>
 <body>
-<h1>Cloverleaf Volume Counts</h1>
+<h1>Cloverleaf Outbound Volume Counts</h1>
+August 2019
 <svg width="760" height="870"></svg>
 <form>
   <label><input type="radio" name="site" value="all" checked> All Sites</label>
@@ -28,7 +29,7 @@
   console.log('color range:', color.range());
 
   const treemap = d3.treemap()
-    .tile(d3.treemapBinary)
+    .tile(d3.treemapResquarify)
     .size([width, height])
     .round(true)
     .paddingInner(1);
@@ -36,7 +37,7 @@
   const createTreemap = (data) => {
     const root = d3.hierarchy(data)
       .eachBefore(d => { d.data.id = (d.parent ? `${d.parent.data.id}.` : '') + d.data.name})
-      .sum(d =>  ['ajis', 'compas', 'ivvs', 'jhis'].includes(d.name) ? 0 : d.size)
+      .sum(d =>  d.size)
       .sort((a,b) => b.height - a.height || b.value - a.value)
 
     console.log('root height:', root.height, 'root depth', root.depth);
@@ -65,7 +66,7 @@
     cell.append('text')
       .attr('clip-path', d => `url(#clip-${d.data.id})`)
       .selectAll('tspan')
-        .data(d => d.data.id.split('.').slice(3).concat(format(d.value)))
+        .data(d => [d.data.id.split('.').slice(3).concat(format(d.value)).join(' - ')])
         .enter().append('tspan')
         .attr('x', 4)
         .attr('y', (d, i) => 13 + i*14)
@@ -75,7 +76,7 @@
 
   }
 
-  d3.json(`${__dirname}/j2_out.json`).then(data => {
+  d3.json(`${__dirname}/traffic_2019-08_tree_out.json`).then(data => {
     allData = data;
     createTreemap(data);
   }).catch((err) => {
