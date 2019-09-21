@@ -33,17 +33,21 @@ data passes through several stages before visualization.
 
    `  python monthlySummary traffic_2019-07.txt`
 
-   A manual change has to be made at this point: `rajis_cdaemon_out_j02` to
-   `rajis_jail_out_j02`.  Otherwise the next step thinks the RAJIS node is
+   A manual change has to be made at this point to 
+   `traffic_2019-07_flat_out.json`: change
+
+   `rajis_cdaemon_out_j02` to `rajis_jail_out_j02`.
+
+   Otherwise the next step thinks the RAJIS node is
    part of a site named `cdaemon`, which is erroneous.
 
 4. A JavaScript program `hier.js` converts the flat-JSON file into a hierarchical
    JSON file based node membership to Cloverleaf sites and processes.  The format
    of the hierarchical JSON file accommodates the `d3.hierarchy` processor.
-   
-   ` node hier.js traffic_2019-07_flat_in.json > traffic_2019-07_tree_in.json`
-   ` node hier.js traffic_2019-07_flat_out.json > traffic_2019-07_tree_out.json`
-
+```
+  node hier.js traffic_2019-07_flat_in.json  > traffic_2019-07_tree_in.json
+  node hier.js traffic_2019-07_flat_out.json > traffic_2019-07_tree_out.json
+```
 
 5. The Electron application reads the hierarchical JSON file and creates the
    treemap.

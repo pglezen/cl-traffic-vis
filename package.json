@@ -2,7 +2,7 @@
   "name": "clstats",
   "version": "1.0.0",
   "description": "Diagram CL volume counts.",
-  "main": "main.js",
+  "main": "app.js",
   "scripts": {
     "electron": "electron ."
   },

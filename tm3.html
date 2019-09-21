@@ -25,9 +25,6 @@ August 2019
 
   let allData = null;
 
-  console.log('color domain:', color.domain());
-  console.log('color range:', color.range());
-
   const treemap = d3.treemap()
     .tile(d3.treemapResquarify)
     .size([width, height])
@@ -83,19 +80,6 @@ August 2019
     console.log('Encountered error', err);
   });
 
-  console.log('width = ', width, ', height = ', height);
-
-  const filterSite = (root, siteName) => {
-    root.children = root.children.filter(child => child.name === siteName);
-  }
-
-  const siteFilter = (siteName) => {
-    return function(evt) {
-      console.log('Filter by ', siteName);
-      console.log('Event', evt.target);
-    }
-  }
-
   function changeSite(siteName) {
     console.log('changeSite function invoked with', siteName);
     let data = allData;
@@ -111,6 +95,12 @@ August 2019
   d3.selectAll('input')
     .data(['all', 'jail', 'court', 'probation', 'misc', 'subpoena'])
     .on('change', changeSite);
+
+const { ipcRenderer } = require('electron');
+ipcRenderer.on('newdata', (event, hierarchy) => {
+  console.log('Received newdata event.');
+  console.log('hierarchy = ', hierarchy);
+});
 
 </script>
 </body>
