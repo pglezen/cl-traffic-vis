@@ -58,7 +58,6 @@ const createTreemap = (data) => {
       .text(d => d);
 
   cell.append('title').text(d => `${d.data.id}\n${format(d.value)}`);
-
 }
 
 ipcRenderer.on('newdata', (event, hierarchy) => {

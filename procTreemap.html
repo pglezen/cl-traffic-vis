@@ -1,7 +1,8 @@
 <head>
 </head>
 <body>
-<h1>Cloverleaf <span id="direction"></span> Volume Counts</h1>
+<h1>Cloverleaf Traffic <span id="whichsite"></span></h1>
+<h3>Colored by Process</h3>
 <p id="month"> September 2019 </p>
 <svg width="760" height="800"></svg>
 <form id="site">
@@ -13,11 +14,6 @@
   <label><input type="radio" name="site" value="subpoena"> subpoena site</label>
   <br/>
 </form>
-<form id="direction">
-  <label><input type="radio" name="direction" value="inout">Inbound and Outbound</label>
-  <label><input type="radio" name="direction" value="in">Inbound Only</label>
-  <label><input type="radio" name="direction" value="out">Outbound Only</label>
-</form>
-<script src="treemap.js">
+<script src="procTreemap.js">
 </script>
 </body>

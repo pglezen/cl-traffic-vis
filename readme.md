@@ -9,7 +9,7 @@ data passes through several stages before visualization.
    next day.  The Cloverleaf command used to fetch these counts is
    `hcimsiutil`.
 
-2. The `hcimsiutil` must be run for each node.  The output is semi-structured
+2. The `hcimsiutil` is run for each node.  The output is semi-structured
    text that must be parsed to extract the desired counts.  The maintenance
    script pipes the output through an `awk` script that parses the `hcimsiutil`
    output and emits a single record with a timestamp, node name, and the daily
@@ -27,27 +27,12 @@ data passes through several stages before visualization.
 ```
 
 3. The traffic file (from Step #2) is processed by a Python/Pandas script
-   `monthlySummary.py` to aggregate the counts to a montly summary, filter
-   nodes that are merely cross Cloverleaf sites, and convert the result to
-   a "flat JSON" file.  Here is an example.
+   `monthlySummary.py` to aggregate the counts to a montly summary.
+   Here is an example invocation.
 
    `  python monthlySummary traffic_2019-07.txt`
 
-   A manual change has to be made at this point to 
-   `traffic_2019-07_flat_out.json`: change
+   This creates a new file named `traffic_2019-07_flat.json`.
 
-   `rajis_cdaemon_out_j02` to `rajis_jail_out_j02`.
-
-   Otherwise the next step thinks the RAJIS node is
-   part of a site named `cdaemon`, which is erroneous.
-
-4. A JavaScript program `hier.js` converts the flat-JSON file into a hierarchical
-   JSON file based node membership to Cloverleaf sites and processes.  The format
-   of the hierarchical JSON file accommodates the `d3.hierarchy` processor.
-```
-  node hier.js traffic_2019-07_flat_in.json  > traffic_2019-07_tree_in.json
-  node hier.js traffic_2019-07_flat_out.json > traffic_2019-07_tree_out.json
-```
-
-5. The Electron application reads the hierarchical JSON file and creates the
+4. The Electron application reads the JSON flat file and creates the
    treemap.

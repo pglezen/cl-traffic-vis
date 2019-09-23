@@ -43,10 +43,8 @@ if (dataFile.length) {
   console.log('No data file was chosen.');
 }
 
-let checkedSelection = null;
-const viewSelectionButton = document.getElementById('viewSelection');
-viewSelectionButton.onclick = function(event) {
-  checkedSelection = d3.selectAll('input[type=checkbox]').filter(':checked');
+const viewSelection = () => {
+  const checkedSelection = d3.selectAll('input[type=checkbox]').filter(':checked');
   console.log('Clicked View Selection. Number seleced', checkedSelection.size());
   let filteredNodes = {};
   checkedSelection.each(function() {
@@ -58,7 +56,19 @@ viewSelectionButton.onclick = function(event) {
     }
     filteredNodes[name] = value;
   });
-  const hierarchy = inoutSplit(filteredNodes);
-  ipcRenderer.send('filter:done', hierarchy);
+  return filteredNodes;
 }
-  
+
+const viewInOutButton = document.getElementById('viewInOut');
+viewInOutButton.onclick = function(event) {
+  const filteredNodes = viewSelection();
+  const hierarchy = inoutSplit(filteredNodes);
+  ipcRenderer.send('filter:inout', hierarchy);
+}
+
+const viewByProcButton = document.getElementById('viewByProc');
+viewByProcButton.onclick = function(event) {
+  const filteredNodes = viewSelection();
+  const hierarchy = procSplit(filteredNodes);
+  ipcRenderer.send('filter:proc', hierarchy);
+}

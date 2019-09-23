@@ -81,10 +81,10 @@ const procSplit = (nodeList) => {
       const matches = entry.match(/([a-z]+)_[a-z]+_dest_(in|out)_([a-z])(\d\d)/);
       //                              1                    2        3      4
       //                    sample:  pimsa_court_dest_out_p04
-      node = matches(1);
-      inout = matches(2);
-      site = prefixMap[matches(3)];
-      proc = [matches(3), matches(4)].join('');
+      node = matches[1];
+      inout = matches[2];
+      site = prefixMap[matches[3]];
+      proc = [matches[3], matches[4]].join('');
     } else {
       [node, site, inout, proc] = entry.split('_');
     }
