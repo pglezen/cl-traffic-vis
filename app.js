@@ -13,36 +13,29 @@ app.on('ready', function() {
   filterWindow.loadURL(`file://${__dirname}/filter.html`);
 });
 
-ipcMain.on('filter:inout', (event, hierarchy) => {
-
+const newViewerWindow = (url, hierarchy) => {
   mainWindow = new BrowserWindow({
     webPreferences: { nodeIntegration: true },
     width: 800,
     height: 1000
   });
-  mainWindow.loadURL(`file://${__dirname}/inoutTreemap.html`);
+  mainWindow.loadURL(url);
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.send('newdata', hierarchy);
   });
 
   mainWindow.on('closed', () => app.quit());
-  // filterWindow.close();
+};
 
+ipcMain.on('filter:inout:sunburst', (event, hierarchy) => {
+  newViewerWindow(`file://${__dirname}/inoutSunburst.html`, hierarchy);
 });
 
-ipcMain.on('filter:proc', (event, hierarchy) => {
+ipcMain.on('filter:inout:treemap', (event, hierarchy) => {
+  newViewerWindow(`file://${__dirname}/inoutTreemap.html`, hierarchy);
+});
 
-  mainWindow = new BrowserWindow({
-    webPreferences: { nodeIntegration: true },
-    width: 800,
-    height: 1000
-  });
-  mainWindow.loadURL(`file://${__dirname}/procTreemap.html`);
-  mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.send('newdata', hierarchy);
-  });
 
-  mainWindow.on('closed', () => app.quit());
-  // filterWindow.close();
-
+ipcMain.on('filter:proc:treemap', (event, hierarchy) => {
+  newViewerWindow(`file://${__dirname}/procTreemap.html`, hierarchy);
 });

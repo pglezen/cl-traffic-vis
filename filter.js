@@ -59,16 +59,24 @@ const viewSelection = () => {
   return filteredNodes;
 }
 
-const viewInOutButton = document.getElementById('viewInOut');
-viewInOutButton.onclick = function(event) {
+let viewButton = null;
+viewButton = document.getElementById('viewInOutTreemap');
+viewButton.onclick = function(event) {
   const filteredNodes = viewSelection();
   const hierarchy = inoutSplit(filteredNodes);
-  ipcRenderer.send('filter:inout', hierarchy);
+  ipcRenderer.send('filter:inout:treemap', hierarchy);
 }
 
-const viewByProcButton = document.getElementById('viewByProc');
-viewByProcButton.onclick = function(event) {
+viewButton = document.getElementById('viewByProcTreemap');
+viewButton.onclick = function(event) {
   const filteredNodes = viewSelection();
   const hierarchy = procSplit(filteredNodes);
-  ipcRenderer.send('filter:proc', hierarchy);
+  ipcRenderer.send('filter:proc:treemap', hierarchy);
+}
+
+viewButton = document.getElementById('viewInOutSunburst');
+viewButton.onclick = function(event) {
+  const filteredNodes = viewSelection();
+  const hierarchy = inoutSplit(filteredNodes);
+  ipcRenderer.send('filter:inout:sunburst', hierarchy);
 }
