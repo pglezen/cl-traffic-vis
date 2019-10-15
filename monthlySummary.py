@@ -12,9 +12,9 @@ else:
 dateMatch = re.search(r'traffic_(\d\d\d\d-\d\d)\.txt', infile)
 if len(dateMatch.groups()):
   datePart = dateMatch.group(1);
-  combFlatJsonFile = 'traffic_{}_flat.json'.format(datePart)
-  print('   Input text file: {}'.format(infile))
-  print('Combined flat file: {}'.format(combFlatJsonFile))
+  combFlatJsonFile = 'traffic_{}.json'.format(datePart)
+  print('Input text file: {}'.format(infile))
+  print(' JSON flat file: {}'.format(combFlatJsonFile))
 else:
   print('filename {} must be in the format traffic_YYYY-MM.txt'.format(infile))
   sys.exit(2)

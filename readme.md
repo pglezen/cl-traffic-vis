@@ -1,22 +1,24 @@
-# Cloverlaf Volume Counts
+# Cloverleaf Volume Counts
 
 This repository holds scripts used to visualize traffic volume through
-the Cloverleaf integration broker that facilitates much of PIX.  The
-data passes through several stages before visualization.
+the Cloverleaf integration broker that facilitates much of PIX.
 
-1. The daily counts for each Cloverleaf node are collected each night
+![Sample Sunburst](./images/inoutSunburst.jpg)
+
+The data passes through several stages before visualization.
+
+1. The daily counts for Cloverleaf nodes are collected each night
    by a maintenance script just before these counts are reset for the
-   next day.  The Cloverleaf command used to fetch these counts is
-   `hcimsiutil`.
+   next day.  The `hcimsiutil` command is used to fetch these counts.
 
-2. The `hcimsiutil` is run for each node.  The output is semi-structured
-   text that must be parsed to extract the desired counts.  The maintenance
-   script pipes the output through an `awk` script that parses the `hcimsiutil`
-   output and emits a single record with a timestamp, node name, and the daily
-   count.  This record is appended to a file named
-   `/cis/local/log/traffic_YYYY-MM.txt`, where `YYYY` and `MM` are the current
-   year and month, respectively.  A new file is started each month.
-   Sample content is shown below.
+2. The output from `hcimsiutil` is semi-structured text that must be
+   parsed to extract the desired counts.  The nightly maintenance
+   script does this by piping the `hcimsiutil` output through an `awk`
+   script, which emits a single record with a timestamp, node name,
+   and the daily count.  This single-line record is appended to a file
+   named `/cis/local/log/traffic_YYYY-MM.txt`, where `YYYY` and `MM`
+   are the current year and month, respectively.  A new file is
+   started each month. Sample content is shown below.
 
 ```
 2019-07-01 23:37:58 cchrs_misc_dest_out_p02 429
@@ -28,11 +30,11 @@ data passes through several stages before visualization.
 
 3. The traffic file (from Step #2) is processed by a Python/Pandas script
    `monthlySummary.py` to aggregate the counts to a montly summary.
-   Here is an example invocation.
+   Here is an invocation example.
 
-   `  python monthlySummary traffic_2019-07.txt`
+   `python monthlySummary traffic_2019-07.txt`
 
-   This creates a new file named `traffic_2019-07_flat.json`.
+   This creates a new file with a `.json` extension: `traffic_2019-07.json`.
 
-4. The Electron application reads the JSON flat file and creates the
-   treemap.
+4. The Electron application reads the JSON flat file and creates 
+   treemaps and sunbursts.
