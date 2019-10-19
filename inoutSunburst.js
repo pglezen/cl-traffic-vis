@@ -41,6 +41,7 @@ const createSunburst = (data) => {
      .style("font", "10px sans-serif")
      .style("margin", "5px");
 
+  // Draw the arcs and fill the color.
   svg.append('g')
      .attr("fill-opacity", 0.6)
    .selectAll("path")
@@ -52,6 +53,7 @@ const createSunburst = (data) => {
    .append("title")
      .text(d => `${d.ancestors().map(d => d.data.name).reverse().join('/')}\n${format(d.value)}`);
 
+  // Add just the cell name for small cells.
   svg.append('g')
       .attr("pointer-events", "none")
       .attr("text-anchor", "middle")
@@ -67,6 +69,7 @@ const createSunburst = (data) => {
       .attr("dy", "0.2em")
     .text(d => d.data.name)
 
+  // Add cell name for larger cells.
   svg.append('g')
       .attr("pointer-events", "none")
       .attr("text-anchor", "middle")
@@ -81,6 +84,7 @@ const createSunburst = (data) => {
       .attr("dy", "-0.2em")
     .text(d => d.data.name)
 
+  // Add the cell value under cell name for larger cells.
   svg.append('g')
       .attr("pointer-events", "none")
       .attr("text-anchor", "middle")
@@ -93,6 +97,17 @@ const createSunburst = (data) => {
         return `rotate(${x-90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
       })
       .attr("dy", "0.85em")
+    .text(d => format(d.value));
+
+  // Add the cell in the middle of depth zero.
+  svg.append('g')
+      .style("font", "14px sans-serif")
+      .attr("pointer-events", "none")
+      .attr("text-anchor", "middle")
+    .selectAll("text")
+    .data(root.descendants().filter(d => d.depth == 0))
+    .enter().append("text")
+      .attr("dy", "0.25em")
     .text(d => format(d.value));
 
   svg.attr("viewBox", autoBox);
