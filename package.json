@@ -10,6 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "d3": "^5.11.0",
-    "electron": "^6.0.4"
+    "electron": "^15.5.5"
   }
 }
